@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="android.mybzdemo.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/bt_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换贝塞尔曲线" />
+
+        <Button
+            android:id="@+id/bt_control_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否显示控制点(水波纹)"/>
+
+        <Button
+            android:id="@+id/bt_anim_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始动画" />
+    </LinearLayout>
+
+    <android.mybzdemo.MyBzView1
+        android:id="@+id/mybz1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:visibility="gone" />
+
+    <android.mybzdemo.MyBzView2
+        android:id="@+id/mybz2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.mybzdemo.MyBzView3
+        android:id="@+id/mybz3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+</LinearLayout>
