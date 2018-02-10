@@ -6,13 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 /**
  * @author liuml
@@ -21,38 +18,24 @@ import android.view.View;
  */
 
 public class MyBzView3 extends View {
-
     private static final String TAG = "MyBzView3";
-    private Paint paint;
-    private Path bzPath;
-    //水波纹有四个控制点
-    private Point controlPoint1 = new Point(200, 200);
-    private Point controlPoint2 = new Point(500, 800);
-    private int pointDown = 0;// 1 是在第一个控制点2 是在第二个控制点 0 是什么都不在
-    int waterHeight = 200;
-
-    private boolean controlVisible = true;
-    int screenWidth;
-    int screenHeight;
-    private ValueAnimator animator;
-    private int curValue;
+    ValueAnimator animator;
+    private Path mPath;
+    private Paint mPaint;
+    private static final int INT_WAVE_LENGTH = 1000;//波长
+    private int waveHeight = 60;
+    private int mDeltax;
 
     public MyBzView3(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        DisplayMetrics dm = new DisplayMetrics();
-        dm = getResources().getDisplayMetrics();
-        float density = dm.density; // 屏幕密度（像素比例：0.75/1.0/1.5/2.0）
-        int densityDPI = dm.densityDpi; // 屏幕密度（每寸像素：120/160/240/320）
-        screenWidth = dm.widthPixels; // 屏幕宽（像素，如：3200px）
-        screenHeight = dm.heightPixels; // 屏幕高（像素，如：1280px）
 
-        controlPoint1.x = screenWidth / 4;
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLUE);
+        //用这种风格绘制的几何图形和文本将会被填充
+        //在同一时间抚摸，尊重与中风相关的领域
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
-        controlPoint1.y = screenHeight / 2 + waterHeight;
-
-        controlPoint2.x = screenWidth / 4 * 3;
-        controlPoint2.y = screenHeight / 2 - waterHeight;
-
+        mPath = new Path();
     }
 
 
@@ -60,110 +43,56 @@ public class MyBzView3 extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paint = new Paint();
-        paint.setColor(Color.GREEN);
-        paint.setStrokeWidth(10);
-        paint.setAntiAlias(true);
+        //清除路径上的任何线条和曲线，使其为空。
+        mPath.reset();
 
-        bzPath = new Path();
-        //起始点
-        bzPath.moveTo(-screenWidth+curValue, screenHeight / 2);
-//        bzPath.moveTo(-800, 500);
-//        bzPath.moveTo(0, screenHeight / 2);
-        //左边的
-        bzPath.cubicTo(-controlPoint1.x+curValue, controlPoint1.y, -controlPoint2.x+curValue, controlPoint2.y, curValue, screenHeight / 2);
-//        bzPath.cubicTo(-100, 500, -200, 600, 300, 800);
-        canvas.drawPath(bzPath, paint);
-        bzPath.cubicTo(controlPoint1.x+curValue, controlPoint1.y, controlPoint2.x+curValue, controlPoint2.y, screenWidth+curValue, screenHeight / 2);
-        //绘制路径
-        canvas.drawPath(bzPath, paint);
-//        paint.setColor(Color.RED);
-        //画矩形 从水平线往下
-        canvas.drawRect(0, screenHeight / 2, screenWidth, screenHeight, paint);
-        paint.setColor(Color.BLUE);
-        //绘制控制点
-        if (controlVisible) {
-            canvas.drawCircle(controlPoint1.x, controlPoint1.y, 20, paint);
-            canvas.drawCircle(controlPoint2.x, controlPoint2.y, 20, paint);
+        int orgin = 800;
+        int halfLength = INT_WAVE_LENGTH / 2;
+        //起始点移动到左边屏幕的左边,根据不断改变起始点 动态的改变位置
+        mPath.moveTo(-INT_WAVE_LENGTH + mDeltax, orgin);
+        //从起始点开始
+        for (int i = -INT_WAVE_LENGTH; i < getWidth() + INT_WAVE_LENGTH;
+             i += INT_WAVE_LENGTH) {
+            //使用rQuadTo 是相对位移 不用重新设置起始点
+            mPath.rQuadTo(halfLength / 2, waveHeight, halfLength, 0);
+            mPath.rQuadTo(halfLength / 2, -waveHeight, halfLength, 0);
         }
-        paint.reset();
+        //上面是画曲线
+
+        //下面是画出界面左边和右边的一条线 这样就可以闭合
+        mPath.lineTo(getWidth(), getHeight());
+        mPath.lineTo(0, getHeight());
+        mPath.close();//让线闭合
+
+        //把线画出来
+        canvas.drawPath(mPath, mPaint);
     }
 
-    public void setControlVisible(boolean visible) {
-        this.controlVisible = visible;
-        invalidate();
-    }
-
-    public boolean controlVisible() {
-        return controlVisible;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                //判断按下的点是否在控制点上
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                if (controlPoint1.x - 20 < x && x < controlPoint1.x + 20
-                        && controlPoint1.y - 20 < y && y < controlPoint1.y + y) {
-                    //在控制点1上
-                    pointDown = 1;
-                }
-                if (controlPoint2.x - 20 < x && x < controlPoint2.x + 20
-                        && controlPoint2.y - 20 < y && y < controlPoint2.y + y) {
-                    //在控制点2上
-                    pointDown = 2;
-                }
-
-            case MotionEvent.ACTION_MOVE:
-                if (pointDown == 1) {
-                    controlPoint1.x = (int) event.getX();
-                    controlPoint1.y = (int) event.getY();
-                }
-                if (pointDown == 2) {
-                    controlPoint2.x = (int) event.getX();
-                    controlPoint2.y = (int) event.getY();
-                }
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                pointDown = 0;
-                break;
-        }
-
-        return true;
-    }
 
     /**
      * 开启动画
      */
     public void startAnimator() {
-        animator = ValueAnimator.ofInt(0, screenHeight / 2, screenWidth, screenHeight / 2);
-        animator.setDuration(3000);
+        animator = ValueAnimator.ofInt(0, INT_WAVE_LENGTH);
+        animator.setDuration(1000);
+        //设置为线性的
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setRepeatCount(ValueAnimator.INFINITE);//无限循环
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                curValue = (int) animation.getAnimatedValue();
-                Log.d(TAG, "onAnimationUpdate: curValue=" + curValue);
-                Log.d(TAG, "===============================================================" );
+                mDeltax = (int) animation.getAnimatedValue();
+                //根据不断改变起始点 动态的改变位置
                 postInvalidate();
             }
         });
 
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.setRepeatMode(ValueAnimator.RESTART);
         animator.start();
-//        animator1 = ObjectAnimator.ofFloat(mMybz3,"translationX",0,screenWidth);
-//        animator1.setDuration(2000);
-//        animator1.setRepeatCount(ValueAnimator.INFINITE);
-////        animator1.setRepeatMode();
-//        animator1.start();
+
     }
 
     public void stopanimator() {
 
         animator.cancel();
-//        animator1.cancel();
     }
 }

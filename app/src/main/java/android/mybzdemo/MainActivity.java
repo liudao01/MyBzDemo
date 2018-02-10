@@ -46,11 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mBtControlVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMybz3.controlVisible()) {
-                    mMybz3.setControlVisible(false);
-                } else {
-                    mMybz3.setControlVisible(true);
-                }
+
             }
         });
         mBtChange.setOnClickListener(new View.OnClickListener() {

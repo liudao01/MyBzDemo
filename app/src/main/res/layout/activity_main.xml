@@ -19,6 +19,7 @@
             android:text="切换贝塞尔曲线" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/bt_control_visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
