@@ -1,4 +1,4 @@
-package android.mybzdemo;
+package android.mybzdemo.pathMeasure;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -13,11 +13,11 @@ import android.view.animation.LinearInterpolator;
 
 /**
  * @author liuml
- * @explain 水波纹
+ * @explain pathMeasure 使用  实现小船在波浪上面
  * @time 2018/2/6 16:55
  */
 
-public class MyBzView3 extends View {
+public class BoatView extends View {
     private static final String TAG = "MyBzView3";
     ValueAnimator animator;
     private Path mPath;
@@ -26,7 +26,7 @@ public class MyBzView3 extends View {
     private int waveHeight = 60;
     private int mDeltax;
 
-    public MyBzView3(Context context, @Nullable AttributeSet attrs) {
+    public BoatView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         mPaint = new Paint();

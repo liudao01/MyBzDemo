@@ -19,11 +19,11 @@
             android:text="切换贝塞尔曲线" />
 
         <Button
-            android:visibility="gone"
             android:id="@+id/bt_control_visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="是否显示控制点(水波纹)"/>
+            android:text="是否显示控制点(水波纹)"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/bt_anim_start"
@@ -32,14 +32,14 @@
             android:text="开始动画" />
     </LinearLayout>
 
-    <android.mybzdemo.MyBzView1
+    <android.mybzdemo.bezier.MyBzView1
         android:id="@+id/mybz1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:visibility="gone" />
 
-    <android.mybzdemo.MyBzView2
+    <android.mybzdemo.bezier.MyBzView2
         android:id="@+id/mybz2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,8 +49,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.mybzdemo.MyBzView3
+    <android.mybzdemo.bezier.MyBzView3
         android:id="@+id/mybz3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <android.mybzdemo.pathMeasure.MyPathMeasureBase
+        android:id="@+id/measure1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible" />

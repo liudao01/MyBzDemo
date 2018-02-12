@@ -2,6 +2,10 @@ package android.mybzdemo;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.mybzdemo.bezier.MyBzView1;
+import android.mybzdemo.bezier.MyBzView2;
+import android.mybzdemo.bezier.MyBzView3;
+import android.mybzdemo.pathMeasure.MyPathMeasureBase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -23,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private ValueAnimator animator;
     private int type = 2;
     private ObjectAnimator animator1;
+    private MyPathMeasureBase mMeasure1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mMybz1 = (MyBzView1) findViewById(R.id.mybz1);
         mMybz2 = (MyBzView2) findViewById(R.id.mybz2);
         mMybz3 = (MyBzView3) findViewById(R.id.mybz3);
+        mMeasure1 = (MyPathMeasureBase) findViewById(R.id.measure1);
 
         DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
@@ -58,18 +65,28 @@ public class MainActivity extends AppCompatActivity {
                         mMybz1.setVisibility(View.VISIBLE);
                         mMybz2.setVisibility(View.GONE);
                         mMybz3.setVisibility(View.GONE);
+                        mMeasure1.setVisibility(View.GONE);
                         break;
                     case 2:
                         type = 3;
                         mMybz1.setVisibility(View.GONE);
                         mMybz2.setVisibility(View.VISIBLE);
                         mMybz3.setVisibility(View.GONE);
+                        mMeasure1.setVisibility(View.GONE);
                         break;
                     case 3:
-                        type = 1;
+                        type = 4;
                         mMybz3.setVisibility(View.VISIBLE);
                         mMybz1.setVisibility(View.GONE);
                         mMybz2.setVisibility(View.GONE);
+                        mMeasure1.setVisibility(View.GONE);
+                        break;
+                    case 4:
+                        type = 1;
+                        mMybz3.setVisibility(View.GONE);
+                        mMybz1.setVisibility(View.GONE);
+                        mMybz2.setVisibility(View.GONE);
+                        mMeasure1.setVisibility(View.VISIBLE);
                         break;
                 }
             }

@@ -1,4 +1,4 @@
-package android.mybzdemo;
+package android.mybzdemo.bezier;
 
 import android.content.Context;
 import android.graphics.Canvas;
