@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.mybzdemo.bezier.MyBzView1;
 import android.mybzdemo.bezier.MyBzView2;
 import android.mybzdemo.bezier.MyBzView3;
+import android.mybzdemo.pathMeasure.BoatView;
 import android.mybzdemo.pathMeasure.MyPathMeasureBase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private MyBzView2 mMybz2;
     private MyBzView3 mMybz3;
     private Button mBtControlVisible;
+    private BoatView mBoatView;
+
+
     boolean start = false;
     private Button mBtAnimStart;
     int screenWidth;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private int type = 2;
     private ObjectAnimator animator1;
     private MyPathMeasureBase mMeasure1;
+    private Button mBtBooatStart;
+
 
 
     @Override
@@ -41,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         mMybz2 = (MyBzView2) findViewById(R.id.mybz2);
         mMybz3 = (MyBzView3) findViewById(R.id.mybz3);
         mMeasure1 = (MyPathMeasureBase) findViewById(R.id.measure1);
+        mBoatView = (BoatView) findViewById(R.id.BoatView);
+        mBtBooatStart = (Button) findViewById(R.id.bt_booat_start);
+
 
         DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
@@ -56,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        mBtBooatStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBoatView.startAnimator();
+            }
+        });
         mBtChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         mMybz2.setVisibility(View.GONE);
                         mMybz3.setVisibility(View.GONE);
                         mMeasure1.setVisibility(View.GONE);
+                        mBoatView.setVisibility(View.GONE);
                         break;
                     case 2:
                         type = 3;
@@ -73,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         mMybz2.setVisibility(View.VISIBLE);
                         mMybz3.setVisibility(View.GONE);
                         mMeasure1.setVisibility(View.GONE);
+                        mBoatView.setVisibility(View.GONE);
                         break;
                     case 3:
                         type = 4;
@@ -80,13 +97,23 @@ public class MainActivity extends AppCompatActivity {
                         mMybz1.setVisibility(View.GONE);
                         mMybz2.setVisibility(View.GONE);
                         mMeasure1.setVisibility(View.GONE);
+                        mBoatView.setVisibility(View.GONE);
                         break;
                     case 4:
+                        type = 5;
+                        mMybz3.setVisibility(View.GONE);
+                        mMybz1.setVisibility(View.GONE);
+                        mMybz2.setVisibility(View.GONE);
+                        mBoatView.setVisibility(View.GONE);
+                        mMeasure1.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
                         type = 1;
                         mMybz3.setVisibility(View.GONE);
                         mMybz1.setVisibility(View.GONE);
                         mMybz2.setVisibility(View.GONE);
-                        mMeasure1.setVisibility(View.VISIBLE);
+                        mBoatView.setVisibility(View.VISIBLE);
+                        mMeasure1.setVisibility(View.GONE);
                         break;
                 }
             }

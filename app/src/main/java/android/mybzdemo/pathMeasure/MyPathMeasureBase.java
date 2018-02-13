@@ -34,6 +34,8 @@ public class MyPathMeasureBase extends View {
     public MyPathMeasureBase(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+
+
         //---画笔
         //ANTI_ALIAS_FLAG绘制时不允许使用反锯齿的标志。
         mPaint =new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -81,6 +83,7 @@ public class MyPathMeasureBase extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //先置空
         mDst.reset();
         // 硬件加速的BUG
         mDst.lineTo(0,0);

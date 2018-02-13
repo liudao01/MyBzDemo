@@ -29,7 +29,12 @@
             android:id="@+id/bt_anim_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始动画" />
+            android:text="开始水波纹动画" />
+        <Button
+            android:id="@+id/bt_booat_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始小船动画" />
     </LinearLayout>
 
     <android.mybzdemo.bezier.MyBzView1
@@ -57,6 +62,11 @@
 
     <android.mybzdemo.pathMeasure.MyPathMeasureBase
         android:id="@+id/measure1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <android.mybzdemo.pathMeasure.BoatView
+        android:id="@+id/BoatView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible" />
